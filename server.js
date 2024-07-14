@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,19 +9,16 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cookieParser())
-
-
-const checkFirstLoad = function (req, res, next) {
-    if (!req.cookies.isFirstLoad) {
-        res.cookie('isFirstLoad', true)
-        return res.render('index', { page: req.originalUrl })
-        // res.clearCookie('adiSoyadi');
+const checkAppLoaded = function (req, res, next) {
+    // app-loaded value doesn't matter true or false
+    // important thing is if it's there or not.
+    if (!req.headers['app-loaded']) {
+        return res.render('index')
     }
     next()
 }
 
-app.use(checkFirstLoad)
+app.use(checkAppLoaded)
 
 app.get('/', (req, res) => {
     res.send(`<h2>Welcome to the Home Page</h2>
@@ -38,6 +34,12 @@ app.get('/about', (req, res) => {
 app.get('/contact', (req, res) => {
     res.send(`<h2>Contact Us</h2>
 <p>This is the contact page content.</p>
+`)
+})
+
+app.get('*', (req, res) => {
+    res.send(`<h2>404</h2>
+<p>Page not found</p>
 `)
 })
 
