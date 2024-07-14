@@ -37,22 +37,31 @@ app.get('/contact', (req, res) => {
 `)
 })
 
-app.get('/components/sidebar', (req, res) => {
+app.get('/partials/sidebar', (req, res) => {
     res.send(`
     <nav>
       <ul>
-        <li><button onclick="loadContent('/')">Home</button></li>
-        <li><button onclick="loadContent('/about')">About</button></li>
-        <li><button onclick="loadContent('/contact')">Contact</button></li>
+        <li><button onclick="goPage('/')">Home</button></li>
+        <li><button onclick="goPage('/about')">About</button></li>
+        <li><button onclick="goPage('/contact')">Contact</button></li>
       </ul>
     </nav>
 `)
 })
 
+app.get('/partials/topbar', (req, res) => {
+    res.send(`
+  <header>
+    <h1>Node - Single Page Application</h1>
+  </header>
+`)
+})
+
 
 app.get('*', (req, res) => {
-    res.send(`<h2>404</h2>
-<p>Page not found</p>
+    res.send(`
+        <h2>404</h2>
+        <p>Page not found</p>
 `)
 })
 
