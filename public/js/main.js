@@ -1,39 +1,25 @@
-const contentElement = document.getElementById('content');
-
-function loadContent(page) {
-    fetch(page, {
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "X-Aequseted-With": "XMLHttpRequest",
-            'app-loaded': appLoadedFlag
-        }
-    })
-        .then(response => response.text())
-        .then(html => {
-            contentElement.innerHTML = html;
-        })
-        .catch(err => console.error('Error:', err));
-}
+const contentElement = document.getElementById('content')
 
 let appLoadedFlag = false
+FetchManager.addHeader('app-loaded', appLoadedFlag)
+
+
+async function loadComponent(link, element) {
+    let res = await FetchManager.get(`/components/${link}`)
+    document.getElementById(element).innerHTML = await res.text()
+}
+
+async function loadContent(page) {
+    let res = await FetchManager.get(page)
+    contentElement.innerHTML = await res.text()
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     appLoadedFlag = true
 
-    document.querySelectorAll('a[data-link]').forEach(link => {
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            const url = e.target.href;
-            window.history.pushState({}, '', url);
-            loadContent(url);
-        });
-    });
-
     window.addEventListener('popstate', () => {
-        loadContent(window.location.pathname);
-    });
-
-    loadContent(window.location.pathname);
-});
+        loadContent(window.location.pathname)
+    })
+    loadComponent('sidebar', 'sidebar')
+    loadContent(window.location.pathname)
+})

@@ -37,6 +37,19 @@ app.get('/contact', (req, res) => {
 `)
 })
 
+app.get('/components/sidebar', (req, res) => {
+    res.send(`
+    <nav>
+      <ul>
+        <li><button onclick="loadContent('/')">Home</button></li>
+        <li><button onclick="loadContent('/about')">About</button></li>
+        <li><button onclick="loadContent('/contact')">Contact</button></li>
+      </ul>
+    </nav>
+`)
+})
+
+
 app.get('*', (req, res) => {
     res.send(`<h2>404</h2>
 <p>Page not found</p>
