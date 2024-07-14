@@ -5,14 +5,14 @@ let headers = {
 }
 
 const FetchManager = {
-    get: async function (endpoint) {
+    get: function (endpoint) {
         return fetch(endpoint, {
             method: 'GET',
             credentials: 'include',
             headers,
         })
     },
-    post: async function (endpoint, body = {}) {
+    post: function (endpoint, body = {}) {
         return fetch(endpoint, {
             method: 'POST',
             credentials: 'include',
@@ -20,7 +20,7 @@ const FetchManager = {
             body: JSON.stringify(body)
         })
     },
-    put: async function (endpoint, body = {}) {
+    put: function (endpoint, body = {}) {
         return fetch(endpoint, {
             method: 'PATCH',
             credentials: 'include',
@@ -28,7 +28,7 @@ const FetchManager = {
             body: JSON.stringify(body)
         })
     },
-    delete: async function (endpoint) {
+    delete: function (endpoint) {
         return fetch(
             endpoint, {
             method: 'DELETE',
