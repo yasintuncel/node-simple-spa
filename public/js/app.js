@@ -9,9 +9,6 @@ function getFormBody(formId) {
         ]))
 }
 
-
-
-
 async function onClickLogin() {
     let form = document.getElementById('loginForm')
     let isValid = form.reportValidity();
@@ -21,9 +18,21 @@ async function onClickLogin() {
         let res = await FetchManager.post('/login', body)
 
         if (res.status == 200) {
+            setLayoutToAdmin()
             goPage('/')
         } else {
             console.log('form error')
         }
+    }
+}
+
+async function onClickLogout() {
+    let res = await FetchManager.get('/logout')
+
+    if (res.status == 200) {
+        setLayoutToEmpty()
+        goPage('/login')
+    } else {
+        console.log('form error')
     }
 }

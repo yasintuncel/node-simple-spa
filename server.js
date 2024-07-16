@@ -26,7 +26,6 @@ const users = [
     { username: 'user2', password: '123456' },
 ]
 
-
 const checkAppLoaded = function (req, res, next) {
     // app-loaded value doesn't matter true or false
     // important thing is if it's there or not.
@@ -62,6 +61,7 @@ app.get('/partials/sidebar', (req, res) => {
         <li><button onclick="goPage('/')">Home</button></li>
         <li><button onclick="goPage('/about')">About</button></li>
         <li><button onclick="goPage('/contact')">Contact</button></li>
+        <li><button onclick="onClickLogout()">Logout</button></li>
       </ul>
     </nav>
 `)
@@ -81,8 +81,8 @@ app.get('/login', (req, res) => {
     <form id="loginForm">
         <input type='text' name='username' placeholder='Username' required>
         <input type='password' name='password' placeholder='Password' required>
-        <button onclick="onClickLogin()">Login</button>
     </form>
+    <button onclick="onClickLogin()">Login</button>
 `)
 })
 
@@ -100,18 +100,18 @@ app.post('/login', (req, res) => {
 
     if (user) {
         req.session.user = user;
-        res.send('login success');
+        res.status(200).send('login success');
     } else {
-        res.send('Invalid username or password');
+        res.status(404).send('Invalid username or password');
     }
 });
 
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
-            return res.send('Error logging out');
+            return res.status(400).send('Error logging out')
         }
-        res.redirect('/');
+        return res.status(200).send('logout succesfuly')
     });
 });
 
