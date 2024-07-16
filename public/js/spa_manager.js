@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         goPage(window.location.pathname)
     }
     else {
-        setLayoutToEmpty()
-        goPage('/login')
+        setLoginPage()
     }
 })

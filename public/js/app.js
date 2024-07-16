@@ -9,6 +9,7 @@ function getFormBody(formId) {
         ]))
 }
 
+
 async function onClickLogin() {
     let form = document.getElementById('loginForm')
     let isValid = form.reportValidity();
@@ -30,8 +31,7 @@ async function onClickLogout() {
     let res = await FetchManager.get('/logout')
 
     if (res.status == 200) {
-        setLayoutToEmpty()
-        goPage('/login')
+        setLoginPage()
     } else {
         console.log('form error')
     }

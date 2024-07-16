@@ -14,10 +14,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-    secret: 'your_secret_key',
+    secret: 'y3!our_sec$r*et!_ke$@y',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // HTTPS kullanıyorsanız, true yapın
+    cookie: {
+        secure: false,  // HTTPS kullanıyorsanız, true yapın
+        maxAge: 60000   // 1 min
+    }
 }))
 
 
@@ -72,17 +75,6 @@ app.get('/partials/topbar', (req, res) => {
   <header>
     <h1>Node - Single Page Application</h1>
   </header>
-`)
-})
-
-app.get('/login', (req, res) => {
-    res.send(`
-    <h1>Login</h1>
-    <form id="loginForm">
-        <input type='text' name='username' placeholder='Username' required>
-        <input type='password' name='password' placeholder='Password' required>
-    </form>
-    <button onclick="onClickLogin()">Login</button>
 `)
 })
 
