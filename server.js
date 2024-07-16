@@ -1,13 +1,31 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ extended: true, limit: '50mb' }))
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // HTTPS kullanıyorsanız, true yapın
+}))
+
+
+const users = [
+    { username: 'user', password: '123456' },
+    { username: 'user2', password: '123456' },
+]
+
 
 const checkAppLoaded = function (req, res, next) {
     // app-loaded value doesn't matter true or false
@@ -57,6 +75,45 @@ app.get('/partials/topbar', (req, res) => {
 `)
 })
 
+app.get('/login', (req, res) => {
+    res.send(`
+    <h1>Login</h1>
+    <form id="loginForm">
+        <input type='text' name='username' placeholder='Username' required>
+        <input type='password' name='password' placeholder='Password' required>
+        <button onclick="onClickLogin()">Login</button>
+    </form>
+`)
+})
+
+app.get('/check-session', (req, res) => {
+    if (req.session.user) {
+        res.json({ isLogged: true });
+    } else {
+        res.json({ isLogged: false });
+    }
+});
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body
+    let user = users.find(e => e.username == username && e.password == password)
+
+    if (user) {
+        req.session.user = user;
+        res.send('login success');
+    } else {
+        res.send('Invalid username or password');
+    }
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.send('Error logging out');
+        }
+        res.redirect('/');
+    });
+});
 
 app.get('*', (req, res) => {
     res.send(`
@@ -66,5 +123,5 @@ app.get('*', (req, res) => {
 })
 
 app.listen(PORT, () => {
-    console.log(`Sunucu ${PORT} numaralı portta çalışıyor.`);
+    console.log('Server running on : http://localhost:' + PORT);
 });

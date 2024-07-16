@@ -18,11 +18,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         goPage(window.location.pathname, true)
     })
 
-    let topbarRes = await FetchManager.get(`/partials/topbar`)
-    document.getElementById('topbar').innerHTML = await topbarRes.text()
+    let sessionRes = await FetchManager.get(`/check-session`)
+    let sessionJson = await sessionRes.json()
 
-    let sidebarRes = await FetchManager.get(`/partials/sidebar`)
-    document.getElementById('sidebar').innerHTML = await sidebarRes.text()
+    if (sessionJson.isLogged) {
+        let topbarRes = await FetchManager.get(`/partials/topbar`)
+        document.getElementById('topbar').innerHTML = await topbarRes.text()
 
-    goPage(window.location.pathname)
+        let sidebarRes = await FetchManager.get(`/partials/sidebar`)
+        document.getElementById('sidebar').innerHTML = await sidebarRes.text()
+        goPage(window.location.pathname)
+    }
+    else {
+        goPage('/login')
+    }
 })
