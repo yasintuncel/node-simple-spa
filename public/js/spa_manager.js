@@ -5,7 +5,7 @@ async function goPage(page, goBack = false) {
     let res = await FetchManager.get(page)
     document.getElementById('content').innerHTML = await res.text()
     if (!goBack) {
-        window.history.pushState({}, '', page);
+        window.history.pushState(null, null, page);
     }
 }
 
