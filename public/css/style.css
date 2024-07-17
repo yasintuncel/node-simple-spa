@@ -1,31 +1,54 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+.sidebar {
+  height: 100vh;
+  background-color: #343a40;
+  padding-top: 1rem;
+}
+
+.sidebar .logo {
   text-align: center;
+  margin-bottom: 1rem;
 }
 
-header {
-  background-color: #333;
-  color: white;
-  padding: 1rem;
+.sidebar .logo img {
+  max-width: 100%;
+  height: auto;
 }
 
-nav ul {
-  list-style: none;
-  padding: 0;
+.sidebar a {
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  display: block;
 }
 
-nav ul li {
-  display: inline;
-  margin: 0 1rem;
-}
-
-nav ul li a {
-  color: white;
+.sidebar a:hover {
+  background-color: #495057;
+  color: #ffffff;
   text-decoration: none;
 }
 
+.topbar {
+  background-color: #f8f9fa;
+  padding: 1rem;
+}
+
+.topbar .avatar {
+  cursor: pointer;
+}
+
+.topbar .dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
 .content {
-  padding: 2rem;
+  padding: 0;
+  /* Güncellenmiş padding */
+  min-height: calc(100vh - 120px);
+}
+
+.footer {
+  background-color: #f8f9fa;
+  padding: 0.5rem;
+  text-align: center;
+  border-top: 1px solid #dee2e6;
 }

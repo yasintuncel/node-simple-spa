@@ -57,19 +57,42 @@ app.get('/contact', (req, res) => {
 `)
 })
 
-app.get('/partials/sidebar', (req, res) => {
-    res.send(`
-    <nav>
-      <ul>
-        <li><button onclick="goPage('/')">Home</button></li>
-        <li><button onclick="goPage('/about')">About</button></li>
-        <li><button onclick="goPage('/contact')">Contact</button></li>
-        <li><button onclick="onClickTestDialog()">Test Dialog</button></li>
-        <li><button onclick="onClickTestNotify()">Test Notify</button></li>
-        <li><button onclick="onClickLogout()">Logout</button></li>
-      </ul>
-    </nav>
-`)
+app.get('/partials/sidebarMenus', (req, res) => {
+    res.send([
+        {
+            title: 'Home',
+            onclick: `goPage('/')`,
+        },
+        {
+            title: 'divider',
+        },
+        {
+            title: 'About',
+            onclick: `goPage('/about')`,
+        },
+        {
+            title: 'Contact',
+            onclick: `goPage('/contact')`,
+        },
+        {
+            title: 'divider',
+        },
+        {
+            title: 'Test Dialog',
+            onclick: `onClickTestDialog()`,
+        },
+        {
+            title: 'Test Notify',
+            onclick: `onClickTestNotify()`,
+        },
+        {
+            title: 'divider',
+        },
+        {
+            title: 'Logout',
+            onclick: `onClickLogout()`,
+        },
+    ])
 })
 
 app.get('/partials/topbar', (req, res) => {
