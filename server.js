@@ -19,7 +19,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: {
         secure: false,  // HTTPS kullanıyorsanız, true yapın
-        maxAge: 60000   // 1 min
+        maxAge: 60000 * 60   // 1 min
     }
 }))
 
@@ -64,6 +64,8 @@ app.get('/partials/sidebar', (req, res) => {
         <li><button onclick="goPage('/')">Home</button></li>
         <li><button onclick="goPage('/about')">About</button></li>
         <li><button onclick="goPage('/contact')">Contact</button></li>
+        <li><button onclick="onClickTestDialog()">Test Dialog</button></li>
+        <li><button onclick="onClickTestNotify()">Test Notify</button></li>
         <li><button onclick="onClickLogout()">Logout</button></li>
       </ul>
     </nav>
