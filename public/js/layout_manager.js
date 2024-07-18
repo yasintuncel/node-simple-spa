@@ -1,11 +1,14 @@
-const layouts = {
-    empty: `<div id="content"></div>`
+const layoutTypes = {
+    empty: 0,
+    admin: 1,
 }
+
+let currentLayout = null
 
 async function updateSidebar() {
     let menus = await (await FetchManager.get(`/partials/sidebarMenus`)).json()
-    let sidebarItem = await (await FetchManager.get('/templates/components/sidebar/item.ejs')).text()
-    let dividerItem = await (await FetchManager.get('/templates/components/sidebar/divider.ejs')).text()
+    let sidebarItem = await (await FetchManager.get('/components/sidebar/item.ejs')).text()
+    let dividerItem = await (await FetchManager.get('/components/sidebar/divider.ejs')).text()
 
     document.getElementById('sidebarMenu').innerHTML = ''
     menus.map(e =>
@@ -14,14 +17,33 @@ async function updateSidebar() {
 }
 
 async function setLayoutToAdmin() {
-    let layout = await FetchManager.get('/templates/layouts/adminLayout.ejs')
+    if (currentLayout == layoutTypes.admin)
+        return
+
+    let layout = await FetchManager.get('/layouts/adminLayout.ejs')
     document.getElementById('app').innerHTML = await layout.text()
 
-    // let topbarRes = await FetchManager.get(`/partials/topbar`)
-    // document.getElementById('topbar').innerHTML = await topbarRes.text()
     await updateSidebar()
+    currentLayout = layoutTypes.admin
 }
 
 function setLayoutToEmpty() {
-    document.getElementById('app').innerHTML = layouts.empty
+    if (currentLayout == layoutTypes.empty)
+        return
+    document.getElementById('app').innerHTML = `<div id="content"></div>`
+    currentLayout = layoutTypes.empty
+}
+
+const layouts = {
+    [layoutTypes.empty]: setLayoutToEmpty,
+    [layoutTypes.admin]: setLayoutToAdmin,
+}
+
+function setLayout(type) {
+    if (type == currentLayout) return;
+    layouts[type]()
+}
+
+const LayoutManager = {
+    setLayout,
 }

@@ -1,3 +1,33 @@
+let appLoadedFlag = false
+FetchManager.addHeader('app-loaded', appLoadedFlag)
+
+document.addEventListener('DOMContentLoaded', async () => {
+    appLoadedFlag = true
+
+    window.addEventListener('popstate', () => {
+        // goPage(window.location.pathname, true)
+    })
+
+    let sessionRes = await FetchManager.get(`/check-session`)
+    let sessionJson = await sessionRes.json()
+
+    if (sessionJson.isLogged) {
+        if (Object.hasOwn(pages, `${window.location.pathname}`)) {
+            goPage(pages[window.location.pathname])
+            currentPage = pages[window.location.pathname]
+        }
+        else {
+            currentPage = pages.dashboard
+            goPage(pages.dashboard)
+        }
+    }
+    else {
+        currentPage = pages.login
+        goPage(pages.login)
+    }
+})
+
+
 function getFormBody(formId) {
     var form = document.getElementById(formId)
     var formData = new FormData(form)
@@ -6,6 +36,16 @@ function getFormBody(formId) {
             key, formData.getAll(key).length > 1 ?
                 formData.getAll(key) : formData.get(key)
         ]))
+}
+
+async function onClickLogout() {
+    let res = await FetchManager.get('/logout')
+
+    if (res.status == 200) {
+        setLoginPage()
+    } else {
+        console.log('form error')
+    }
 }
 
 function onClickTestDialog() {
