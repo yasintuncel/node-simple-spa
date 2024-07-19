@@ -41,42 +41,38 @@ const checkAppLoaded = function (req, res, next) {
 app.use(checkAppLoaded)
 
 app.get('/', (req, res) => {
-    res.send({
-        title: 'Dashboard',
-        message: 'This is the dashboard page content.'
-    })
+    res.send(`<h2>Welcome to the Home Page</h2>
+<p>This is the content of the home page.</p>`)
 })
 
 app.get('/about', (req, res) => {
-    res.send({
-        title: 'About Us',
-        message: 'This is the about page content.'
-    })
+    res.send(`<h2>About Us</h2>
+<p>This is the about page content.</p>
+`)
 })
 
 app.get('/contact', (req, res) => {
-    res.send({
-        title: 'Contact Us',
-        message: 'This is the contact page content.'
-    })
+    res.send(`<h2>Contact Us</h2>
+<p>This is the contact page content.</p>
+`)
 })
 
 app.get('/partials/sidebarMenus', (req, res) => {
     res.send([
         {
             title: 'Home',
-            onclick: `goPage(pages.dashboard)`,
+            onclick: `goPage('/')`,
         },
         {
             title: 'divider',
         },
         {
             title: 'About',
-            onclick: `goPage(pages.about)`,
+            onclick: `goPage('/about')`,
         },
         {
             title: 'Contact',
-            onclick: `goPage(pages.contact)`,
+            onclick: `goPage('/contact')`,
         },
         {
             title: 'divider',
